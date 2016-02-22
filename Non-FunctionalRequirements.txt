@@ -1,0 +1,8 @@
+﻿Non-Functional Requirements
+1. Uses knockout.js and d3.js
+2. Has to display within ~1 second of loading a given page (load times deter use)
+3. If a user logs in for viewing private repos, we handle the login securely
+4. Mousing over an element in the streamgraph will display its name in a popup
+5. Graceful failure when GitHub connection or authentication fails
+6. JS file(s) no larger than necessary, to expedite loading
+7. Supported on Chrome and Firefox
