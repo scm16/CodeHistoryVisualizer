@@ -1,12 +1,13 @@
 // Wrap app in define function, for require.js
-define(function (require) {
-	// load dependencies
-	var $ = require('../lib/jquery-2.2.3.min'),
-		ko = require('../lib/knockout-min'),
-		graphVM = require('GraphViewModel');
+define([
+	'../lib/jquery-2.2.3.min',
+	'../lib/knockout-min',
+	'GraphViewModel'
+	], function ($, ko, graphVM) {
 
 	// Main logic goes here
 	console.log("Loaded")
+	var $ = jQuery;
 
 	var SearchViewModel = function() {
 		var self = this;
@@ -71,6 +72,6 @@ define(function (require) {
 
 	};
 
-	ko.applyBindings(new SearchViewModel());
-	ko.applyBindings(new graphVM.GraphViewModel());
+	ko.applyBindings(new SearchViewModel(), $('#search')[0]);
+	ko.applyBindings(new graphVM.GraphViewModel(), $('#graph')[0]);
 });
