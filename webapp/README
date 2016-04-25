@@ -1,5 +1,4 @@
-Implementation:
-----------------
+
 
 Class:CS3704
 
@@ -8,9 +7,11 @@ Group Members:
 Jordan Kuhn()
 Steffen Moseley()
 Somn Kafley(somkk13)
-John McDoull()
+John McDouall()
 
-
+Implementation:
+----------------
+We couldn't implement graph fully. Although there is some sorts of graph, that is not up to our plan. Conversely, we were able to implement many of the use cases we planned earlier.
 How to run the program
 -----------------------
 
@@ -27,6 +28,15 @@ Note: The browser has to the latest one
 
 
 Testing
----------
+-------
+Our testing is not up to what we plan to do.
+We used Qunit test to perform our test.
 
-We test 
+How to  run the testing:
+------------------------
+1. Open the zip file
+2. go to the folder
+3. select test1.html 
+4. click right and run with browsers: chrome, firfox or safari
+Note: The browser has to the latest one
+5. you will see the result
