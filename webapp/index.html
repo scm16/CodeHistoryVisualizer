@@ -39,7 +39,7 @@
 		<div data-bind="foreach:repos">
 				<ul data-bind="visible: isActive()" class="list-group">
 					<li class="list-group-item active">
-						<h5 class="repoName" data-bind="style: {'font-size': $parent.repo() ? '200%' : '100%'}">
+						<h5 class="repoName" data-bind="style: {'font-size': ($parent.repo()!='') ? '200%' : '100%'}">
 							<span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp&nbsp&nbsp
 							<span data-bind="text:name"></span>
 						</h5>
@@ -70,18 +70,15 @@
 	</section>
 	</section>
 
-	<section class="container" id="graph" data-bind="visible:repo"/>
+	<section class="container" id="info" data-bind="visible:(repo()!='')">
+		<ul id="filelist" data-bind="visible:(repo()!='')" >
+		</ul>
 
-	<ul id="filelist" data-bind="visible:repo">
-	</ul>
+		<ul id="commitlist" data-bind="foreach: commitlist, visible:(repo()!='')" class="list-group">
+			<li class="list-group-item" data-bind="text:formatted()"/>
+		</ul>
 
-	<ul id="commitlist" data-bind="visible:repo">
-	<li data-bind="foreach: commitlist">
-		<strong data-bind="text:name"/>
-		<span data-bind="text:date"/>
-	</li>
-	</ul>
-
+	</section>
 
 	</body>
 </html>

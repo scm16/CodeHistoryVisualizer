@@ -7,9 +7,9 @@ define([
 
 	// Main logic goes here
 	console.log("Loaded")
-	var $ = jQuery;
+	var $ = jQuery; // not sure why this is necessary
 
-	var SearchViewModel = function() {
+	var ViewModel = function() {
 		var self = this;
 
 		self.query = ko.observable("");
@@ -24,12 +24,18 @@ define([
 		self.public_repos = ko.observable("");
 		self.repos = ko.observableArray();
 
-		self.repo = ko.observable(false);
+		self.repo = ko.observable("");
+		self.commitlist = ko.observableArray();
+
 		self.selectText = ko.computed(function() {
-			return self.repo() ? "Return to list" : "Select"
+			return (self.repo()!="") ? "Return to list" : "Select"
 		});
 
 		self.search = function() {
+			if (self.query() == '') {
+				return;
+			}
+
 			jQuery.ajax({
 				url:"https://api.github.com/users/" + self.query(),
 				complete: function(xhr) {
@@ -48,30 +54,41 @@ define([
 				url:"https://api.github.com/users/" + self.query() + "/repos",
 				complete: function(xhr) {
 					var json = xhr.responseJSON;
-					jQuery.each(json, function(index, el) {
-						el.isActive = ko.observable(true);
-						self.repos.push(el)
+					jQuery.each(json, function(index, elem) {
+						elem.isActive = ko.observable(true);
+						self.repos.push(elem)
 					});
 				}
 			});
 		};
 		self.toggleActive = function(data, event) {
-			var active = self.repo();
-			self.repo(!self.repo());
-			ko.utils.arrayForEach(self.repos(), function(el) {
-				el.isActive(active);
+			var active = (self.repo() != "");
+			self.repo(active ? "" : data.name);
+			ko.utils.arrayForEach(self.repos(), function(elem) {
+				elem.isActive(active);
 			});
 			data.isActive(true);
 		}
+
+		self.repo.subscribe(function(value) {
+			if (value == "") {
+				self.commitlist([]);
+			} else {
+				$.ajax({
+					url:"https://api.github.com/repos/" + self.query() + "/" + self.repo() + "/commits",
+					complete: function(xhr) {
+						var json = xhr.responseJSON;
+						$.each(json, function(index, elem) {
+							elem.formatted = function() {
+								return elem.commit.message + " - by " + elem.author.login
+							};
+							self.commitlist.push(elem);
+						});
+					}
+				});
+			}
+		});
 	};
 
-	var DetailsViewModel = function() {
-		var self = this;
-
-		
-
-	};
-
-	ko.applyBindings(new SearchViewModel(), $('#search')[0]);
-	ko.applyBindings(new graphVM.GraphViewModel(), $('#graph')[0]);
+	ko.applyBindings(new ViewModel());
 });
