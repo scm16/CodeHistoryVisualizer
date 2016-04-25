@@ -9,11 +9,50 @@ define(function (require) {
 	console.log("Loaded")
 
 	var SearchViewModel = function() {
-		this.query = ko.observable("");
-		this.repo_json = ko.observable("");
-		this.search = function() {
-			this.repo_json(JSON.stringify(jQuery.get("https://api.github.com/repos/" + this.query() + "/commits")));
+		var self = this;
+
+		self.query = ko.observable("");
+
+		self.username = ko.observable("");
+		self.login = ko.observable("");
+		self.avatar_url = ko.observable("");
+		self.html_url = ko.observable("");
+		self.location = ko.observable("");
+		self.followers = ko.observable("");
+		self.following = ko.observable("");
+		self.public_repos = ko.observable("");
+		self.repos = ko.observableArray();
+
+		self.search = function() {
+			jQuery.ajax({
+				url:"https://api.github.com/users/" + self.query(),
+				complete: function(xhr) {
+					var json = xhr.responseJSON;
+					self.username(json.name);
+					self.login(json.login);
+					self.avatar_url(json.avatar_url);
+					self.html_url(json.html_url);
+					self.location(json.location);
+					self.followers(json.followers);
+					self.following(json.following);
+					self.public_repos(json.public_repos);
+				}
+			});
+			jQuery.ajax({
+				url:"https://api.github.com/users/" + self.query() + "/repos",
+				complete: function(xhr) {
+					var json = xhr.responseJSON;
+					self.repos(json);
+				}
+			})
 		};
+	};
+
+	var DetailsViewModel = function() {
+		var self = this;
+
+		
+
 	};
 
 	ko.applyBindings(new SearchViewModel());

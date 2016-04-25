@@ -1,0 +1,25 @@
+/* Styles for Github Webapp */ 
+.avatar {
+	width: 100px;
+	height: 100px; 
+	float: left;
+	margin-right: 15px;
+}
+
+.fllwrs {
+	text-align: center;
+	color: red;
+}
+
+ul {
+	list-style-type: none; 
+	padding-left: 0;
+}
+
+.btn-warning {
+	margin-bottom: 5px;
+}
+
+.alert {
+	margin-top: 20px;
+}

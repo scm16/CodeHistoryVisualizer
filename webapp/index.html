@@ -2,16 +2,82 @@
 <html lang="en-US">
 	<head>
 		<title>Code History Visualizer</title>
-		<script data-main="app/main" src="lib/require.js"></script>
 
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+		<link rel="stylesheet" type="text/css" href="./css/styles.css"/>
+  		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet" type="text/css"/>
+
+		<script data-main="app/main" src="lib/require.js"></script>
 	</head>
 
 	<body>
-	<div id="searchBar">
-	<form data-bind="submit:search">
-	Search repos: <input placeholder="Find a repo..." type="search" data-bind="value:query, valueUpdate:'afterkeydown'"></input>
+	<section class="container">
+		<h1>GitHub CHV</h1> 
+		<div id="searchBar">
+			<form data-bind="submit:search">
+				Search repos:
+				<input placeholder="Username..." type="search" data-bind="value:query, valueUpdate:'afterkeydown'"></input>
+			</form>
+		</div>
+	
+	<section id="data">
+		<div data-bind="if: username" class='profile'> 
+			<a data-bind="attr: { href:html_url }" target='_blank'>
+				<img class='avatar' data-bind="attr: { src:avatar_url }">
+				<h3 data-bind="text:username"></h3>
+				<h4>@<span data-bind="text:login"></span></h4>
+			</a>
+			<div>Followers: <span data-bind="text:followers"></span></div>
+			<div>Following: <span data-bind="text:following"></span></div>
+		</div>
+		<h4 data-bind="visible:repos().length>0"><strong>Public Repositories:</strong></h4>
+		<div data-bind="foreach:repos">
+				<ul class="list-group">
+					<li class="list-group-item active">
+						<h5>
+							<span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp&nbsp&nbsp
+							<span data-bind="text:name"></span>
+						</h5>
+					</li>
+					<li class="list-group-item">
+						Forks: <span data-bind="text:forks_count"></span>
+					</li> 
+					<li class="list-group-item">
+						Size: <span data-bind="text:size"></span> KB
+					</li> 
+					<li class="list-group-item">
+						Created: <span data-bind="text:created_at"></span>
+					</li>
+					<li class="list-group-item">
+						Published: <span data-bind="text:pushed_at"></span>
+					</li>
+					<li class="list-group-item">
+						Last Updated: <span data-bind="text:updated_at"></span>
+					</li>
+					<li class="list-group-item">
+						<a target="_blank" data-bind="attr:{href:html_url}">GitHub link</a>
+					</li>
+				</ul>
+		</div>
+	</section>
+
+	<div id="graph" data-bind="visible:repo">
 	</div>
-	<p data-bind="text: repo_json">JSON here...</p>
+
+	<ul id="filelist" data-bind="visible:repo">
+	</ul>
+
+	<ul id="commitlist" data-bind="visible:repo">
+	<li data-bind="foreach: commitlist">
+		<strong data-bind="text:name">
+		<span data-bind="text:date">
+	</li>
+	</ul>
+
+
+	</section>
 
 	</body>
 </html>
