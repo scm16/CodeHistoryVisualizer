@@ -3,7 +3,6 @@ define(function (require) {
 	// load dependencies
 	var $ = require('../lib/jquery-2.2.3.min'),
 		ko = require('../lib/knockout-min'),
-		highcharts = require('../lib/highcharts'),
 		graphVM = require('GraphViewModel');
 
 	// Main logic goes here
