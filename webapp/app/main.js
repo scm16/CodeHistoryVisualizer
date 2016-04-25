@@ -23,6 +23,11 @@ define(function (require) {
 		self.public_repos = ko.observable("");
 		self.repos = ko.observableArray();
 
+		self.repo = ko.observable(false);
+		self.selectText = ko.computed(function() {
+			return self.repo() ? "Return to list" : "Select"
+		});
+
 		self.search = function() {
 			jQuery.ajax({
 				url:"https://api.github.com/users/" + self.query(),
@@ -42,10 +47,21 @@ define(function (require) {
 				url:"https://api.github.com/users/" + self.query() + "/repos",
 				complete: function(xhr) {
 					var json = xhr.responseJSON;
-					self.repos(json);
+					jQuery.each(json, function(index, el) {
+						el.isActive = ko.observable(true);
+						self.repos.push(el)
+					});
 				}
-			})
+			});
 		};
+		self.toggleActive = function(data, event) {
+			var active = self.repo();
+			self.repo(!self.repo());
+			ko.utils.arrayForEach(self.repos(), function(el) {
+				el.isActive(active);
+			});
+			data.isActive(true);
+		}
 	};
 
 	var DetailsViewModel = function() {
