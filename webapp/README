@@ -1,0 +1,32 @@
+Implementation:
+----------------
+
+Class:CS3704
+
+Group Members:
+----------------------
+Jordan Kuhn()
+Steffen Moseley()
+Somn Kafley(somkk13)
+John McDoull()
+
+
+How to run the program
+-----------------------
+
+1. Open the zip file
+2. go to the folder
+3. select index.html 
+4. click right and run with browsers: chrome, firfox or safari
+Note: The browser has to the latest one
+5. You will get a search box that says 'Search repos' 
+6. Type any git hub user name and hit enter
+7. select any repo you want to see details about
+8. You will be able to details of commit message from that repo.
+
+
+
+Testing
+---------
+
+We test 
