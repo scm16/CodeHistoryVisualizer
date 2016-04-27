@@ -27,6 +27,10 @@ define([
 		self.repo = ko.observable("");
 		self.commitlist = ko.observableArray();
 
+		self.reposURL = ko.computed(function () {
+			return "https://api.github.com/repos/" + self.query() + "/" + self.repo() + "/commits";
+		});
+
 		self.selectText = ko.computed(function() {
 			return (self.repo()!="") ? "Return to list" : "Select"
 		});
@@ -88,13 +92,13 @@ define([
 
 			var startDate = new Date(self.commitlist()[self.commitlist().length-1].commit.author.date);
 			var endDate = new Date(self.commitlist()[0].commit.author.date);
-			var n = Math.floor((endDate - startDate)/1000/3600/24 + 1); // number of days
-			var m = contributors.length;
+			var m = Math.floor((endDate - startDate)/1000/3600/24 + 1); // number of days
+			var n = contributors.length;
 			
 			var data = [];
 
 			$.each(contributors, function(contrib_index, elem_contrib) {
-				data.push(Array.apply(null, Array(n)).map(Number.prototype.valueOf,0));
+				data.push(Array.apply(null, Array(m)).map(Number.prototype.valueOf,0));
 
 				ko.utils.arrayForEach(self.commitlist(), function(elem_commit) {
 					var currentDate = new Date(elem_commit.commit.author.date);
@@ -163,7 +167,7 @@ define([
 				self.commitlist([]);
 			} else {
 				$.ajax({
-					url:"https://api.github.com/repos/" + self.query() + "/" + self.repo() + "/commits",
+					url:self.reposURL(),
 					complete: function(xhr) {
 						var json = xhr.responseJSON;
 						$.each(json, function(index, elem) {
